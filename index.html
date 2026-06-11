@@ -39,21 +39,18 @@ h1{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px}
 .yarn-dup-warn{background:#1e1800;border:1px solid #f5a62355;border-radius:7px;padding:10px 12px;font-size:11px;color:#d4a840;margin-top:8px;display:none;line-height:1.6}
 .yarn-dup-warn.show{display:block}
 .warn-header{font-size:11px;color:#d4a840;margin-bottom:6px}
-/* mini table inside warning */
 .warn-mini-tbl{width:100%;border-collapse:collapse;border-radius:6px;overflow:hidden;border:1px solid #f5a62333}
 .warn-mini-tbl th{background:#1a1400;color:#c8882a;font-size:9px;font-weight:700;padding:4px 8px;text-align:left;border-bottom:1px solid #f5a62222;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
 .warn-mini-tbl td{padding:6px 8px;font-size:12px;border-bottom:1px solid #1e1a00;vertical-align:middle}
 .warn-mini-tbl tr:last-child td{border-bottom:none}
 .warn-mini-tbl tr:hover td{background:#1e1600}
 .wcode{font-size:12px;font-weight:600;font-family:'SF Mono','Consolas',monospace;color:#e0e0e0}
-/* highlighted match in warn table — yellow bold, same as main table .code.m */
 .wcode-hl{font-size:12px;font-weight:700;font-family:'SF Mono','Consolas',monospace;color:#f5c518;background:#f5c51820;border-radius:4px;padding:1px 5px}
 .wdash{color:#3a3a3a}
 .whx-cell{display:inline-flex;align-items:center;gap:5px}
 .wsw{width:13px;height:13px;border-radius:3px;border:1px solid rgba(255,255,255,.1);flex-shrink:0;display:inline-block}
 .wnt{font-size:11px;color:#b0c8e0;font-weight:600}
 .wntc{color:#aaa;font-weight:400}
-/* yellow bold for matched yarn/color pair */
 .wnt-hl{font-size:11px;color:#f5c518;font-weight:700}
 .wntc-hl{color:#f5c518;font-weight:700}
 .warn-sep{border:none;border-top:1px solid #f5a62322;margin:8px 0}
@@ -102,6 +99,12 @@ h1{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px}
 .tbarbtn:hover{background:#243444;color:#aaccee}
 .tbarbtn svg{width:14px;height:14px;flex-shrink:0}
 .import-file{display:none}
+
+/* Import result toast */
+.import-toast{display:none;margin-left:10px;font-size:11px;line-height:1.5}
+.import-toast.show{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap}
+.toast-added{color:#5cb85c;background:#1a3a2a;border:1px solid #2a5a3a;border-radius:5px;padding:2px 8px}
+.toast-skip{color:#f5a623;background:#1e1800;border:1px solid #f5a62344;border-radius:5px;padding:2px 8px}
 
 /* Stats */
 .stats-zone{padding:8px 18px;background:#141414;border-bottom:1px solid #222;display:flex;gap:7px;flex-wrap:wrap}
@@ -243,20 +246,21 @@ td{padding:8px 11px;vertical-align:middle;font-size:13px}
     <div class="toolbar">
       <span class="toolbar-label">匯出</span>
       <button class="tbarbtn" onclick="exportExcel(false)">
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M5 5h6M5 8h6M5 11h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M5 5h6M5 8h6M5 11h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
         全部資料
       </button>
       <button class="tbarbtn" onclick="exportExcel(true)">
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
         搜尋結果
       </button>
       <span class="toolbar-label" style="margin-left:8px">匯入</span>
       <button class="tbarbtn" onclick="document.getElementById('import-file').click()">
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M8 4v6M5.5 7.5L8 10l2.5-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 12h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M8 4v6M5.5 7.5L8 10l2.5-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 12h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
         Excel 匯入
       </button>
       <input type="file" id="import-file" class="import-file" accept=".xlsx,.xls,.csv" onchange="importExcel(event)">
-      <span id="import-status" style="font-size:11px;color:#888;margin-left:6px"></span>
+      <!-- Import result display -->
+      <div class="import-toast" id="import-toast"></div>
     </div>
     <div class="stats-zone" id="stats"></div>
     <div class="tbl-outer">
@@ -282,11 +286,12 @@ td{padding:8px 11px;vertical-align:middle;font-size:13px}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 let rows=[],editingId=null,sortKey=null,sortDir='desc',isSearchActive=false;
-const STORE='color_db_v13';
+const STORE='color_db_v14';
 function loadDB(){try{rows=JSON.parse(localStorage.getItem(STORE)||'[]');}catch(e){rows=[];}}
 function saveDB(){try{localStorage.setItem(STORE,JSON.stringify(rows));}catch(e){}}
 loadDB();
 
+/* ── Normalise ── */
 function normNy(s){const n=parseInt(String(s||'').replace(/\D/g,''),10);return isNaN(n)?'':String(n);}
 function normCt(s){let t=String(s||'').trim().toUpperCase().replace(/\s/g,'');if(!t)return'';if(t.startsWith('DK'))return'DK'+t.slice(2).replace(/\D/g,'').padStart(3,'0');const d=t.replace(/\D/g,'');return d?'DK'+d.padStart(3,'0'):'';}
 function normPc(s){let t=String(s||'').trim().toUpperCase().replace(/PANTONE\s*/gi,'').replace(/[®©]/g,'').trim().replace(/\s+/g,' ');if(!t)return'';if(/[A-Z0-9]C$/.test(t)&&!/ C$/.test(t))t=t.slice(0,-1).trim()+' C';else if(!/\bC$/.test(t))t+=' C';return t.trim()==='C'?'':t;}
@@ -294,6 +299,15 @@ function normTg(s){return String(s||'').trim().toUpperCase().replace(/PANTONE\s*
 function normHx(s){let t=String(s||'').trim().replace(/^#+/,'').toUpperCase();if(/^[0-9A-F]{6}$/.test(t))return'#'+t;if(/^[0-9A-F]{3}$/.test(t))return'#'+t[0]+t[0]+t[1]+t[1]+t[2]+t[2];return'';}
 function trimS(s){return String(s||'').trim();}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ── Unique key for a complete colour set (all 5 main + 3 yarn pairs) ──
+   Two rows are IDENTICAL if all 11 normalised fields match exactly.        */
+function rowKey(r){
+  return[r.ny,r.ct,r.pc,r.tg,r.hx,r.nt1y,r.nt1c,r.nt2y,r.nt2c,r.nt3y,r.nt3c].join('|');
+}
+
+/* Build a Set of existing keys for fast duplicate checking */
+function existingKeySet(){return new Set(rows.map(r=>rowKey(r)));}
 
 function getAddInputs(){return{ny:normNy(document.getElementById('in-ny').value),ct:normCt(document.getElementById('in-ct').value),pc:normPc(document.getElementById('in-pc').value),tg:normTg(document.getElementById('in-tg').value),hx:normHx(document.getElementById('in-hx').value),nt1y:trimS(document.getElementById('in-nt1y').value),nt1c:trimS(document.getElementById('in-nt1c').value),nt2y:trimS(document.getElementById('in-nt2y').value),nt2c:trimS(document.getElementById('in-nt2c').value),nt3y:trimS(document.getElementById('in-nt3y').value),nt3c:trimS(document.getElementById('in-nt3c').value)};}
 
@@ -304,82 +318,38 @@ function showAC(inputId,listId){const val=trimS(document.getElementById(inputId)
 function selectAC(inputId,listId,val){document.getElementById(inputId).value=val;document.getElementById(listId).className='ac-list';checkYarnDup();liveSearch();}
 document.addEventListener('click',e=>{if(!e.target.closest('.ac-wrap'))document.querySelectorAll('.ac-list').forEach(l=>l.className='ac-list');});
 
-/* ── Build mini table: highlight matched yarn+color pair in yellow bold ── */
-function buildWarnMiniTbl(hitRows, matchY, matchC){
-  // matchY and matchC are the exact yarn/color that triggered the warning (lowercased for comparison)
+/* ── Warn mini table ── */
+function buildWarnMiniTbl(hitRows,matchY,matchC){
   const head=`<thead><tr><th>尼龍</th><th>棉</th><th>PANTONE C</th><th>PANTONE TPG</th><th>HEX</th><th>其他紗材</th></tr></thead>`;
   const trs=hitRows.slice(0,5).map(r=>{
     const d=v=>v?`<span class="wcode">${esc(v)}</span>`:`<span class="wdash">—</span>`;
     const hxTd=r.hx?(()=>{const bg=/^#[0-9A-F]{6}$/i.test(r.hx)?r.hx:'#555';return`<td><span class="whx-cell"><span class="wsw" style="background:${bg}"></span><span class="wcode">${esc(r.hx)}</span></span></td>`;})():`<td><span class="wdash">—</span></td>`;
-    // build note cell with yarn+color pairs; highlight the matching pair
     const ntPairs=[[r.nt1y,r.nt1c],[r.nt2y,r.nt2c],[r.nt3y,r.nt3c]].filter(([y,c])=>y||c);
     const ntContent=ntPairs.length?ntPairs.map(([y,c])=>{
-      // check if this pair matches the warned pair
-      const isYarnMatch=matchY&&y&&y.toLowerCase()===matchY.toLowerCase();
-      const isPairMatch=isYarnMatch&&matchC&&c&&c.toLowerCase()===matchC.toLowerCase();
-      const yHtml=y?(isPairMatch?`<span class="wnt-hl">${esc(y)}</span>`:`<span class="wnt">${esc(y)}</span>`):'';
-      const cHtml=c?(isPairMatch?`<span class="wntc-hl">${esc(c)}</span>`:`<span class="wntc">${esc(c)}</span>`):'';
+      const isPairMatch=matchY&&y&&y.toLowerCase()===matchY.toLowerCase()&&matchC&&c&&c.toLowerCase()===matchC.toLowerCase();
+      const yH=y?(isPairMatch?`<span class="wnt-hl">${esc(y)}</span>`:`<span class="wnt">${esc(y)}</span>`):'';
+      const cH=c?(isPairMatch?`<span class="wntc-hl">${esc(c)}</span>`:`<span class="wntc">${esc(c)}</span>`):'';
       const sep=(y&&c)?`<span class="note-sep">·</span>`:'';
-      return`<span>${yHtml}${sep}${cHtml}</span>`;
+      return`<span>${yH}${sep}${cH}</span>`;
     }).join(' '):`<span class="wdash">—</span>`;
     return`<tr><td>${d(r.ny)}</td><td>${d(r.ct)}</td><td>${d(r.pc)}</td><td>${d(r.tg)}</td>${hxTd}<td>${ntContent}</td></tr>`;
   }).join('');
   return`<table class="warn-mini-tbl">${head}<tbody>${trs}</tbody></table>`;
 }
 
-/* ── checkYarnDup ── */
 function checkYarnDup(){
-  const pairs=[
-    [trimS(document.getElementById('in-nt1y').value),trimS(document.getElementById('in-nt1c').value),'in-nt1y','in-nt1c'],
-    [trimS(document.getElementById('in-nt2y').value),trimS(document.getElementById('in-nt2c').value),'in-nt2y','in-nt2c'],
-    [trimS(document.getElementById('in-nt3y').value),trimS(document.getElementById('in-nt3c').value),'in-nt3y','in-nt3c'],
-  ];
+  const pairs=[[trimS(document.getElementById('in-nt1y').value),trimS(document.getElementById('in-nt1c').value),'in-nt1y','in-nt1c'],[trimS(document.getElementById('in-nt2y').value),trimS(document.getElementById('in-nt2c').value),'in-nt2y','in-nt2c'],[trimS(document.getElementById('in-nt3y').value),trimS(document.getElementById('in-nt3c').value),'in-nt3y','in-nt3c']];
   const warnEl=document.getElementById('yarn-dup-warn');
   ['in-nt1y','in-nt1c','in-nt2y','in-nt2c','in-nt3y','in-nt3c'].forEach(id=>document.getElementById(id).classList.remove('warn-input'));
-
-  const ycMap={};
-  const yarnColorMap={};
-  for(const r of rows){
-    [[r.nt1y,r.nt1c],[r.nt2y,r.nt2c],[r.nt3y,r.nt3c]].forEach(([y,c])=>{
-      if(y&&c){const k=y.toLowerCase()+'::'+c.toLowerCase();if(!ycMap[k])ycMap[k]=[];ycMap[k].push(r);}
-      if(y){if(!yarnColorMap[y.toLowerCase()])yarnColorMap[y.toLowerCase()]=new Set();if(c)yarnColorMap[y.toLowerCase()].add(c.toLowerCase());}
-    });
-  }
-
+  const ycMap={};const yarnColorMap={};
+  for(const r of rows){[[r.nt1y,r.nt1c],[r.nt2y,r.nt2c],[r.nt3y,r.nt3c]].forEach(([y,c])=>{if(y&&c){const k=y.toLowerCase()+'::'+c.toLowerCase();if(!ycMap[k])ycMap[k]=[];ycMap[k].push(r);}if(y){if(!yarnColorMap[y.toLowerCase()])yarnColorMap[y.toLowerCase()]=new Set();if(c)yarnColorMap[y.toLowerCase()].add(c.toLowerCase());}});}
   const blocks=[];
   pairs.forEach(([y,c,yId,cId])=>{
     if(!y&&!c)return;
-    if(y&&c){
-      const k=y.toLowerCase()+'::'+c.toLowerCase();
-      const hits=ycMap[k];
-      if(hits&&hits.length>0){
-        document.getElementById(yId).classList.add('warn-input');
-        document.getElementById(cId).classList.add('warn-input');
-        const hdr=`<div class="warn-header">⚠️ ${esc(y)} · ${esc(c)} 已有 ${hits.length} 筆紀錄：</div>`;
-        // pass matchY and matchC so table highlights them
-        blocks.push(hdr+buildWarnMiniTbl(hits, y, c));
-      } else {
-        const yk=y.toLowerCase();
-        if(yarnColorMap[yk]&&yarnColorMap[yk].size>0&&!yarnColorMap[yk].has(c.toLowerCase())){
-          const yarnRows=rows.filter(r=>[r.nt1y,r.nt2y,r.nt3y].some(n=>n&&n.toLowerCase()===yk));
-          const cols=[...yarnColorMap[yk]].slice(0,5).join('、');
-          const hdr=`<div class="warn-header">💡 紗材 ${esc(y)} 曾用過的色號：${cols}</div>`;
-          blocks.push(hdr+(yarnRows.length?buildWarnMiniTbl(yarnRows,y,null):''));
-        }
-      }
-    } else if(y&&!c){
-      const yk=y.toLowerCase();
-      if(yarnColorMap[yk]&&yarnColorMap[yk].size>0){
-        const yarnRows=rows.filter(r=>[r.nt1y,r.nt2y,r.nt3y].some(n=>n&&n.toLowerCase()===yk));
-        const cols=[...yarnColorMap[yk]].slice(0,5).join('、');
-        const hdr=`<div class="warn-header">💡 紗材 ${esc(y)} 曾用過的色號：${cols}</div>`;
-        blocks.push(hdr+(yarnRows.length?buildWarnMiniTbl(yarnRows,y,null):''));
-      }
-    }
+    if(y&&c){const k=y.toLowerCase()+'::'+c.toLowerCase();const hits=ycMap[k];if(hits&&hits.length>0){document.getElementById(yId).classList.add('warn-input');document.getElementById(cId).classList.add('warn-input');blocks.push(`<div class="warn-header">⚠️ ${esc(y)} · ${esc(c)} 已有 ${hits.length} 筆紀錄：</div>`+buildWarnMiniTbl(hits,y,c));}else{const yk=y.toLowerCase();if(yarnColorMap[yk]&&yarnColorMap[yk].size>0&&!yarnColorMap[yk].has(c.toLowerCase())){const yarnRows=rows.filter(r=>[r.nt1y,r.nt2y,r.nt3y].some(n=>n&&n.toLowerCase()===yk));const cols=[...yarnColorMap[yk]].slice(0,5).join('、');blocks.push(`<div class="warn-header">💡 紗材 ${esc(y)} 曾用過的色號：${cols}</div>`+(yarnRows.length?buildWarnMiniTbl(yarnRows,y,null):''));}}}
+    else if(y&&!c){const yk=y.toLowerCase();if(yarnColorMap[yk]&&yarnColorMap[yk].size>0){const yarnRows=rows.filter(r=>[r.nt1y,r.nt2y,r.nt3y].some(n=>n&&n.toLowerCase()===yk));const cols=[...yarnColorMap[yk]].slice(0,5).join('、');blocks.push(`<div class="warn-header">💡 紗材 ${esc(y)} 曾用過的色號：${cols}</div>`+(yarnRows.length?buildWarnMiniTbl(yarnRows,y,null):''));}}
   });
-
-  if(blocks.length){warnEl.innerHTML=blocks.join('<hr class="warn-sep">');warnEl.className='yarn-dup-warn show';}
-  else{warnEl.className='yarn-dup-warn';}
+  if(blocks.length){warnEl.innerHTML=blocks.join('<hr class="warn-sep">');warnEl.className='yarn-dup-warn show';}else{warnEl.className='yarn-dup-warn';}
 }
 
 function clearAdd(){['in-ny','in-ct','in-pc','in-tg','in-hx','in-nt1y','in-nt1c','in-nt2y','in-nt2c','in-nt3y','in-nt3c'].forEach(id=>{const el=document.getElementById(id);el.value='';el.classList.remove('warn-input');});document.getElementById('related-box').className='related-box';document.getElementById('related-tbody').innerHTML='';document.getElementById('yarn-dup-warn').className='yarn-dup-warn';document.querySelectorAll('.ac-list').forEach(l=>l.className='ac-list');}
@@ -395,39 +365,39 @@ function liveSearch(){
   lbl.innerHTML=`⚠️ 找到 <b>${matches.length}</b> 筆相關資料 — 點「編輯」直接補充空白欄位`;
   box.className='related-box show';
   tb.innerHTML=matches.map(({r})=>{
-    const tds=['ny','ct','pc','tg','hx'].map(k=>{
-      const val=r[k]||'';const isMatch=inp[k]&&r[k]===inp[k];const inputHasVal=!!inp[k];
-      let c='';
-      if(k==='hx'&&val){const bg=/^#[0-9A-F]{6}$/i.test(val)?val:'#555';c=`<div class="hx-cell"><span class="sw" style="background:${bg}"></span><span class="${isMatch?'code m':'code'}">${val}</span></div>`;}
-      else c=`<span class="${isMatch?'code m':'code'}">${val||'<span style="color:#333">—</span>'}</span>`;
-      if(!val&&inputHasVal&&k!=='hx')c+=`<div class="edit-hint">← ${inp[k]}</div>`;
-      return`<td>${c}</td>`;
-    }).join('');
+    const tds=['ny','ct','pc','tg','hx'].map(k=>{const val=r[k]||'';const isMatch=inp[k]&&r[k]===inp[k];const inputHasVal=!!inp[k];let c='';if(k==='hx'&&val){const bg=/^#[0-9A-F]{6}$/i.test(val)?val:'#555';c=`<div class="hx-cell"><span class="sw" style="background:${bg}"></span><span class="${isMatch?'code m':'code'}">${val}</span></div>`;}else c=`<span class="${isMatch?'code m':'code'}">${val||'<span style="color:#333">—</span>'}</span>`;if(!val&&inputHasVal&&k!=='hx')c+=`<div class="edit-hint">← ${inp[k]}</div>`;return`<td>${c}</td>`;}).join('');
     const nl=renderNoteLines(r,null);
     return`<tr>${tds}<td>${nl||'<span class="dash">—</span>'}</td><td><button class="qedit-btn" onclick="quickEdit(${r.id})">編輯</button></td></tr>`;
   }).join('');
 }
 function quickEdit(id){editingId=id;render();setTimeout(()=>{const el=document.getElementById('row-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},80);}
 
+/* ── Add row: check full-set duplicate before inserting ── */
 function addRow(){
   const inp=getAddInputs();
   const hasMain=inp.ny||inp.ct||inp.pc||inp.tg||inp.hx;
   const hasNote=inp.nt1y||inp.nt1c||inp.nt2y||inp.nt2c||inp.nt3y||inp.nt3c;
   if(!hasMain&&!hasNote){alert('請至少填一個欄位');return;}
+  const k=rowKey(inp);
+  if(existingKeySet().has(k)){
+    alert('⚠️ 此配色組已完全相同存在，不允許重複新增。\n（五個色號欄位及三組紗材完全一致）');
+    return;
+  }
   rows.unshift({id:Date.now(),...inp});
   saveDB();clearAdd();updateYarnDropdown();render();
 }
+
 function deleteRow(id){if(!confirm('確定刪除？'))return;rows=rows.filter(r=>r.id!==id);saveDB();updateYarnDropdown();render();}
 function startEdit(id){editingId=id;render();}
 function cancelEdit(){editingId=null;render();}
 function saveEdit(id){
   const r=rows.find(x=>x.id===id);if(!r)return;
-  r.ny=normNy(document.getElementById('e-ny-'+id).value);r.ct=normCt(document.getElementById('e-ct-'+id).value);
-  r.pc=normPc(document.getElementById('e-pc-'+id).value);r.tg=normTg(document.getElementById('e-tg-'+id).value);
-  r.hx=normHx(document.getElementById('e-hx-'+id).value);
-  r.nt1y=trimS(document.getElementById('e-nt1y-'+id).value);r.nt1c=trimS(document.getElementById('e-nt1c-'+id).value);
-  r.nt2y=trimS(document.getElementById('e-nt2y-'+id).value);r.nt2c=trimS(document.getElementById('e-nt2c-'+id).value);
-  r.nt3y=trimS(document.getElementById('e-nt3y-'+id).value);r.nt3c=trimS(document.getElementById('e-nt3c-'+id).value);
+  const updated={...r,ny:normNy(document.getElementById('e-ny-'+id).value),ct:normCt(document.getElementById('e-ct-'+id).value),pc:normPc(document.getElementById('e-pc-'+id).value),tg:normTg(document.getElementById('e-tg-'+id).value),hx:normHx(document.getElementById('e-hx-'+id).value),nt1y:trimS(document.getElementById('e-nt1y-'+id).value),nt1c:trimS(document.getElementById('e-nt1c-'+id).value),nt2y:trimS(document.getElementById('e-nt2y-'+id).value),nt2c:trimS(document.getElementById('e-nt2c-'+id).value),nt3y:trimS(document.getElementById('e-nt3y-'+id).value),nt3c:trimS(document.getElementById('e-nt3c-'+id).value)};
+  /* prevent saving as duplicate of another existing row */
+  const newKey=rowKey(updated);
+  const conflict=rows.find(x=>x.id!==id&&rowKey(x)===newKey);
+  if(conflict){alert('⚠️ 修改後的配色組與現有資料完全相同，無法儲存。');return;}
+  Object.assign(r,updated);
   editingId=null;saveDB();updateYarnDropdown();render();
 }
 
@@ -455,7 +425,56 @@ function renderNoteLines(r,ycFreq){
 let lastFiltered=[];
 function rowToExcel(r){return{'尼龍':r.ny||'','棉':r.ct||'','PANTONE C':r.pc||'','PANTONE TPG':r.tg||'','HEX':r.hx||'','紗材1':r.nt1y||'','色號1':r.nt1c||'','紗材2':r.nt2y||'','色號2':r.nt2c||'','紗材3':r.nt3y||'','色號3':r.nt3c||''};}
 function exportExcel(filteredOnly){if(typeof XLSX==='undefined'){alert('Excel 功能載入中');return;}const data=(filteredOnly?lastFiltered:rows).map(rowToExcel);if(!data.length){alert('沒有資料可匯出');return;}const ws=XLSX.utils.json_to_sheet(data);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'色號配對');XLSX.writeFile(wb,filteredOnly?'搜尋結果.xlsx':'色號配對資料庫.xlsx');}
-function importExcel(evt){const file=evt.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{try{const data=new Uint8Array(e.target.result);const wb=XLSX.read(data,{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];const json=XLSX.utils.sheet_to_json(ws,{defval:''});let added=0;for(const row of json){const ny=normNy(row['尼龍']||'');const ct=normCt(row['棉']||'');const pc=normPc(row['PANTONE C']||'');const tg=normTg(row['PANTONE TPG']||'');const hx=normHx(row['HEX']||'');const nt1y=trimS(row['紗材1']||'');const nt1c=trimS(row['色號1']||'');const nt2y=trimS(row['紗材2']||'');const nt2c=trimS(row['色號2']||'');const nt3y=trimS(row['紗材3']||'');const nt3c=trimS(row['色號3']||'');if(ny||ct||pc||tg||hx||nt1y||nt1c||nt2y||nt2c||nt3y||nt3c){rows.push({id:Date.now()+Math.random(),ny,ct,pc,tg,hx,nt1y,nt1c,nt2y,nt2c,nt3y,nt3c});added++;}}saveDB();updateYarnDropdown();render();document.getElementById('import-status').textContent=`已匯入 ${added} 筆`;setTimeout(()=>{document.getElementById('import-status').textContent='';},4000);}catch(err){alert('匯入失敗：'+err.message);}evt.target.value='';};reader.readAsArrayBuffer(file);}
+
+/* ── KEY FIX: importExcel — strict full-set dedup ── */
+function importExcel(evt){
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=new Uint8Array(e.target.result);
+      const wb=XLSX.read(data,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const json=XLSX.utils.sheet_to_json(ws,{defval:''});
+      let added=0,skipped=0;
+      /* snapshot existing keys before import loop */
+      const keys=existingKeySet();
+      for(const row of json){
+        const r={
+          ny:normNy(row['尼龍']||''),
+          ct:normCt(row['棉']||''),
+          pc:normPc(row['PANTONE C']||''),
+          tg:normTg(row['PANTONE TPG']||''),
+          hx:normHx(row['HEX']||''),
+          nt1y:trimS(row['紗材1']||''),nt1c:trimS(row['色號1']||''),
+          nt2y:trimS(row['紗材2']||''),nt2c:trimS(row['色號2']||''),
+          nt3y:trimS(row['紗材3']||''),nt3c:trimS(row['色號3']||''),
+        };
+        /* skip completely empty rows */
+        if(!r.ny&&!r.ct&&!r.pc&&!r.tg&&!r.hx&&!r.nt1y&&!r.nt1c&&!r.nt2y&&!r.nt2c&&!r.nt3y&&!r.nt3c)continue;
+        const k=rowKey(r);
+        if(keys.has(k)){
+          /* EXACT full-set duplicate — skip, do NOT add */
+          skipped++;
+        } else {
+          /* new or partial-match — add as unique record */
+          r.id=Date.now()+Math.random();
+          rows.push(r);
+          keys.add(k);/* prevent duplicates within the same import batch */
+          added++;
+        }
+      }
+      saveDB();updateYarnDropdown();render();
+      /* display result */
+      const toast=document.getElementById('import-toast');
+      toast.innerHTML=`<span class="toast-added">✓ 新增 ${added} 筆</span>`+(skipped?`<span class="toast-skip">⚠ 重複跳過 ${skipped} 筆</span>`:'');
+      toast.className='import-toast show';
+      setTimeout(()=>{toast.className='import-toast';},6000);
+    }catch(err){alert('匯入失敗：'+err.message);}
+    evt.target.value='';
+  };
+  reader.readAsArrayBuffer(file);
+}
 
 function getSQ(){return{ny:String(document.getElementById('s-ny').value||'').trim().toUpperCase(),ct:String(document.getElementById('s-ct').value||'').trim().toUpperCase(),pc:String(document.getElementById('s-pc').value||'').trim().toUpperCase(),tg:String(document.getElementById('s-tg').value||'').trim().toUpperCase(),hx:String(document.getElementById('s-hx').value||'').trim().toUpperCase().replace('#',''),nty:String(document.getElementById('s-nty').value||'').trim(),ntc:String(document.getElementById('s-ntc').value||'').trim().toLowerCase()};}
 
@@ -464,57 +483,21 @@ function render(){
   const sq=getSQ();
   isSearchActive=!!(sq.ny||sq.ct||sq.pc||sq.tg||sq.hx||sq.nty||sq.ntc);
   const primaryKey=sq.ny?'ny':sq.ct?'ct':sq.pc?'pc':sq.tg?'tg':sq.hx?'hx':null;
-
-  ['ny','ct','pc','tg','hx'].forEach(k=>{
-    const th=document.getElementById('th-'+k);if(th)th.className=(sq[k]||sortKey===k)?'hl':'';
-    const sa=document.getElementById('sa-'+k);if(sa)sa.textContent=sortKey===k?(sortDir==='asc'?'▲':'▼'):'';
-  });
-
-  let filtered=rows.filter(r=>{
-    if(sq.ny&&!String(r.ny||'').toUpperCase().includes(sq.ny))return false;
-    if(sq.ct&&!String(r.ct||'').toUpperCase().includes(sq.ct))return false;
-    if(sq.pc&&!String(r.pc||'').toUpperCase().includes(sq.pc))return false;
-    if(sq.tg&&!String(r.tg||'').toUpperCase().includes(sq.tg))return false;
-    if(sq.hx&&!String(r.hx||'').toUpperCase().replace('#','').includes(sq.hx))return false;
-    if(sq.nty){const match=[r.nt1y,r.nt2y,r.nt3y].some(y=>String(y||'').toLowerCase()===sq.nty.toLowerCase());if(!match)return false;}
-    if(sq.ntc){if(sq.nty){const pairs=[[r.nt1y,r.nt1c],[r.nt2y,r.nt2c],[r.nt3y,r.nt3c]];const match=pairs.some(([y,c])=>String(y||'').toLowerCase()===sq.nty.toLowerCase()&&String(c||'').toLowerCase().includes(sq.ntc));if(!match)return false;}else{const match=[r.nt1c,r.nt2c,r.nt3c].some(c=>String(c||'').toLowerCase().includes(sq.ntc));if(!match)return false;}}
-    return true;
-  });
-
-  if(sortKey){
-    filtered.sort((a,b)=>{const va=String(a[sortKey]||''),vb=String(b[sortKey]||'');if(sortKey==='ny'){const na=parseInt(va,10)||0,nb=parseInt(vb,10)||0;return sortDir==='asc'?na-nb:nb-na;}return sortDir==='asc'?va.localeCompare(vb):vb.localeCompare(va);});
-  } else if(isSearchActive){
-    filtered.sort((a,b)=>{const sa=rowTotalScore(a,freq),sb=rowTotalScore(b,freq);if(sb!==sa)return sb-sa;if(primaryKey){const fa=freq[primaryKey][a[primaryKey]]||0,fb=freq[primaryKey][b[primaryKey]]||0;if(fb!==fa)return fb-fa;}return b.id-a.id;});
-  }
-  // no search, no sort → insertion order (newest first)
-
+  ['ny','ct','pc','tg','hx'].forEach(k=>{const th=document.getElementById('th-'+k);if(th)th.className=(sq[k]||sortKey===k)?'hl':'';const sa=document.getElementById('sa-'+k);if(sa)sa.textContent=sortKey===k?(sortDir==='asc'?'▲':'▼'):'';});
+  let filtered=rows.filter(r=>{if(sq.ny&&!String(r.ny||'').toUpperCase().includes(sq.ny))return false;if(sq.ct&&!String(r.ct||'').toUpperCase().includes(sq.ct))return false;if(sq.pc&&!String(r.pc||'').toUpperCase().includes(sq.pc))return false;if(sq.tg&&!String(r.tg||'').toUpperCase().includes(sq.tg))return false;if(sq.hx&&!String(r.hx||'').toUpperCase().replace('#','').includes(sq.hx))return false;if(sq.nty){const match=[r.nt1y,r.nt2y,r.nt3y].some(y=>String(y||'').toLowerCase()===sq.nty.toLowerCase());if(!match)return false;}if(sq.ntc){if(sq.nty){const pairs=[[r.nt1y,r.nt1c],[r.nt2y,r.nt2c],[r.nt3y,r.nt3c]];const match=pairs.some(([y,c])=>String(y||'').toLowerCase()===sq.nty.toLowerCase()&&String(c||'').toLowerCase().includes(sq.ntc));if(!match)return false;}else{const match=[r.nt1c,r.nt2c,r.nt3c].some(c=>String(c||'').toLowerCase().includes(sq.ntc));if(!match)return false;}}return true;});
+  if(sortKey){filtered.sort((a,b)=>{const va=String(a[sortKey]||''),vb=String(b[sortKey]||'');if(sortKey==='ny'){const na=parseInt(va,10)||0,nb=parseInt(vb,10)||0;return sortDir==='asc'?na-nb:nb-na;}return sortDir==='asc'?va.localeCompare(vb):vb.localeCompare(va);});}
+  else if(isSearchActive){filtered.sort((a,b)=>{const sa=rowTotalScore(a,freq),sb=rowTotalScore(b,freq);if(sb!==sa)return sb-sa;if(primaryKey){const fa=freq[primaryKey][a[primaryKey]]||0,fb=freq[primaryKey][b[primaryKey]]||0;if(fb!==fa)return fb-fa;}return b.id-a.id;});}
   lastFiltered=[...filtered];
   const fUniq=k=>[...new Set(filtered.map(r=>r[k]).filter(Boolean))].length;
   const fYarnSet=new Set();filtered.forEach(r=>[r.nt1y,r.nt2y,r.nt3y].forEach(y=>{if(y)fYarnSet.add(y);}));
   document.getElementById('stats').innerHTML=[`<span>搜尋結果 <b>${filtered.length}</b> 筆 / 共 <b>${rows.length}</b> 筆</span>`,`<span>尼龍 <b>${fUniq('ny')}</b> 色</span>`,`<span>棉 <b>${fUniq('ct')}</b> 色</span>`,`<span>Coated <b>${fUniq('pc')}</b> 色</span>`,`<span>TPG <b>${fUniq('tg')}</b> 色</span>`,`<span>HEX <b>${fUniq('hx')}</b> 色</span>`,`<span>紗材 <b>${fYarnSet.size}</b> 種</span>`].join('');
-
   const tbody=document.getElementById('tbody');const empty=document.getElementById('empty');
   if(!filtered.length){tbody.innerHTML='';empty.style.display='block';empty.textContent=rows.length?'找不到符合搜尋條件的配對組':'尚無資料，請在上方新增配對組';return;}
   empty.style.display='none';
-
   tbody.innerHTML=filtered.map(r=>{
     const isEditing=editingId===r.id;
-    const mainCell=(k,val)=>{
-      const isMatch=sq[k]&&String(val||'').toUpperCase().replace('#','').includes(sq[k].replace('#',''));
-      const cnt=(freq[k]&&freq[k][val]&&freq[k][val]>1)?freq[k][val]:0;
-      const dup=cnt?`<span class="dup-badge">×${cnt}</span>`:'';
-      if(isEditing){
-        if(k==='hx'){const safe=(val||'').replace(/"/g,'&quot;');return`<td><div class="ei-hx"><span class="hx-dot" id="hdot-${r.id}" style="background:${/^#[0-9A-F]{6}$/i.test(val)?val:'#555'}"></span><input class="ei" id="e-hx-${r.id}" value="${safe}" placeholder="#RRGGBB" oninput="(function(v){const h=v.replace(/^#+/,'').toUpperCase();document.getElementById('hdot-${r.id}').style.background=/^[0-9A-F]{6}$/.test(h)?'#'+h:'#555'})(this.value)"></div></td>`;}
-        return`<td><input class="ei" id="e-${k}-${r.id}" value="${esc(val||'')}" placeholder=""></td>`;
-      }
-      if(k==='hx'){const bg=/^#[0-9A-F]{6}$/i.test(val)?val:'transparent';return`<td><div class="hx-cell">${val?`<span class="sw" style="background:${bg}"></span>`:''}<span class="code${isMatch?' m':''}">${val||`<span class="dash">—</span>`}</span>${dup}</div></td>`;}
-      return`<td><span class="code${isMatch?' m':''}">${val||`<span class="dash">—</span>`}</span>${dup}</td>`;
-    };
-    const noteCell=()=>{
-      if(isEditing){return`<td><div class="edit-note-wrap"><div class="edit-note-pair"><input class="ei note-ei" id="e-nt1y-${r.id}" value="${esc(r.nt1y||'')}" placeholder="紗材 1"><input class="ei note-ei" id="e-nt1c-${r.id}" value="${esc(r.nt1c||'')}" placeholder="色號 1"></div><div class="edit-note-pair"><input class="ei note-ei" id="e-nt2y-${r.id}" value="${esc(r.nt2y||'')}" placeholder="紗材 2"><input class="ei note-ei" id="e-nt2c-${r.id}" value="${esc(r.nt2c||'')}" placeholder="色號 2"></div><div class="edit-note-pair"><input class="ei note-ei" id="e-nt3y-${r.id}" value="${esc(r.nt3y||'')}" placeholder="紗材 3"><input class="ei note-ei" id="e-nt3c-${r.id}" value="${esc(r.nt3c||'')}" placeholder="色號 3"></div></div></td>`;}
-      const nl=renderNoteLines(r,ycFreq);
-      return`<td>${nl||`<span class="dash">—</span>`}</td>`;
-    };
+    const mainCell=(k,val)=>{const isMatch=sq[k]&&String(val||'').toUpperCase().replace('#','').includes(sq[k].replace('#',''));const cnt=(freq[k]&&freq[k][val]&&freq[k][val]>1)?freq[k][val]:0;const dup=cnt?`<span class="dup-badge">×${cnt}</span>`:'';if(isEditing){if(k==='hx'){const safe=(val||'').replace(/"/g,'&quot;');return`<td><div class="ei-hx"><span class="hx-dot" id="hdot-${r.id}" style="background:${/^#[0-9A-F]{6}$/i.test(val)?val:'#555'}"></span><input class="ei" id="e-hx-${r.id}" value="${safe}" placeholder="#RRGGBB" oninput="(function(v){const h=v.replace(/^#+/,'').toUpperCase();document.getElementById('hdot-${r.id}').style.background=/^[0-9A-F]{6}$/.test(h)?'#'+h:'#555'})(this.value)"></div></td>`;}return`<td><input class="ei" id="e-${k}-${r.id}" value="${esc(val||'')}" placeholder=""></td>`;}if(k==='hx'){const bg=/^#[0-9A-F]{6}$/i.test(val)?val:'transparent';return`<td><div class="hx-cell">${val?`<span class="sw" style="background:${bg}"></span>`:''}<span class="code${isMatch?' m':''}">${val||`<span class="dash">—</span>`}</span>${dup}</div></td>`;}return`<td><span class="code${isMatch?' m':''}">${val||`<span class="dash">—</span>`}</span>${dup}</td>`;};
+    const noteCell=()=>{if(isEditing){return`<td><div class="edit-note-wrap"><div class="edit-note-pair"><input class="ei note-ei" id="e-nt1y-${r.id}" value="${esc(r.nt1y||'')}" placeholder="紗材 1"><input class="ei note-ei" id="e-nt1c-${r.id}" value="${esc(r.nt1c||'')}" placeholder="色號 1"></div><div class="edit-note-pair"><input class="ei note-ei" id="e-nt2y-${r.id}" value="${esc(r.nt2y||'')}" placeholder="紗材 2"><input class="ei note-ei" id="e-nt2c-${r.id}" value="${esc(r.nt2c||'')}" placeholder="色號 2"></div><div class="edit-note-pair"><input class="ei note-ei" id="e-nt3y-${r.id}" value="${esc(r.nt3y||'')}" placeholder="紗材 3"><input class="ei note-ei" id="e-nt3c-${r.id}" value="${esc(r.nt3c||'')}" placeholder="色號 3"></div></div></td>`;}const nl=renderNoteLines(r,ycFreq);return`<td>${nl||`<span class="dash">—</span>`}</td>`;};
     const dataCells=['ny','ct','pc','tg','hx'].map(k=>mainCell(k,r[k])).join('')+noteCell();
     const actCell=isEditing?`<td><button class="tbtn save" onclick="saveEdit(${r.id})">儲存</button><button class="tbtn cancel" onclick="cancelEdit()">取消</button></td>`:`<td><button class="tbtn edit" onclick="startEdit(${r.id})">編輯</button><button class="tbtn del" onclick="deleteRow(${r.id})">刪除</button></td>`;
     return`<tr id="row-${r.id}" class="${isEditing?'editing-row':''}">${dataCells}${actCell}</tr>`;

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -13,6 +12,15 @@ h1{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px}
 .sec-title{font-size:15px;font-weight:800;letter-spacing:.4px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .sec-title.add-t{color:#5aafe0}
 .sec-title.search-t{color:#aaa}
+
+/* DB status banner */
+.db-status{display:flex;align-items:center;gap:8px;font-size:11px;padding:6px 12px;border-radius:7px;margin-bottom:14px;background:#141414;border:1px solid #2a2a2a}
+.db-dot{width:8px;height:8px;border-radius:50%;background:#555;flex-shrink:0;transition:background .3s}
+.db-dot.ok{background:#5cb85c}
+.db-dot.err{background:#e05555}
+.db-dot.loading{background:#f5a623;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.db-msg{color:#888}
 
 /* ADD PANEL */
 .add-panel{background:#141e2c;border:1.5px solid #1e3454;border-radius:12px;padding:16px 18px;margin-bottom:22px}
@@ -100,6 +108,45 @@ h1{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px}
 .tbarbtn svg{width:14px;height:14px;flex-shrink:0}
 .import-file{display:none}
 
+/* Image recognition & search */
+.img-section{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tbarbtn.img-btn{background:#1a2038;color:#8ab0e8;border-color:#2a3a5a}
+.tbarbtn.img-btn:hover{background:#243050;color:#aac8ff}
+.img-input{display:none}
+
+/* Image modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal-box{background:#1a1e2c;border:1.5px solid #2a3a5a;border-radius:14px;padding:22px;max-width:520px;width:90%;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:14px;font-weight:700;color:#7ab0e8;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.modal-preview{width:100%;max-height:200px;object-fit:contain;border-radius:8px;background:#0d1020;border:1px solid #2a3a5a;margin-bottom:12px}
+.modal-result{background:#0d1520;border:1px solid #1e3050;border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;color:#ccc;line-height:1.7;white-space:pre-wrap;max-height:200px;overflow-y:auto}
+.modal-result.loading{color:#888;font-style:italic}
+.modal-btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.modal-btn{padding:6px 16px;font-size:12px;font-weight:600;border-radius:7px;cursor:pointer;transition:all .15s;border:none}
+.modal-btn.primary{background:#0077cc;color:#fff}
+.modal-btn.primary:hover{background:#0088ee}
+.modal-btn.secondary{background:#1c2a38;color:#7aaac8;border:1px solid #2a3e50}
+.modal-btn.secondary:hover{background:#243444}
+.modal-btn.danger{background:#2a1010;color:#e05555;border:1px solid #c04040}
+.modal-btn.danger:hover{background:#3a1818}
+.modal-fill-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.mf-field label{font-size:10px;font-weight:700;color:#7ab0e8;display:block;margin-bottom:4px}
+.mf-field input{width:100%;padding:6px 9px;background:#0d1824;border:1px solid #1e3050;border-radius:6px;color:#e8e8e8;font-size:11px;outline:none;font-family:inherit}
+.mf-field input:focus{border-color:#0077cc}
+
+/* Image search results */
+.img-search-results{background:#1a1e2c;border:1.5px solid #2a3a5a;border-radius:10px;padding:14px;margin-top:10px}
+.img-search-title{font-size:12px;font-weight:700;color:#7ab0e8;margin-bottom:10px}
+.img-swatches{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.img-swatch{width:36px;height:36px;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:all .15s;position:relative;flex-shrink:0}
+.img-swatch:hover{transform:scale(1.1);border-color:#5ab0ff}
+.img-swatch.selected{border-color:#5cb85c;box-shadow:0 0 0 2px #5cb85c55}
+.img-swatch .sw-hex{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#888;white-space:nowrap}
+.swatch-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:20px}
+.close-img-search{font-size:10px;color:#e05555;cursor:pointer;border:1px solid #c04040;border-radius:5px;padding:2px 8px;background:transparent;margin-left:auto;display:block}
+.close-img-search:hover{background:#2a1010}
+
 /* Import result toast */
 .import-toast{display:none;margin-left:10px;font-size:11px;line-height:1.5}
 .import-toast.show{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -157,12 +204,24 @@ td{padding:8px 11px;vertical-align:middle;font-size:13px}
 .tbtn.del:hover{background:#2a1010;color:#ff6666;border-color:#e05555}
 .tbtn.cancel{background:#1e1e1e;color:#aaa;border:1px solid #333}
 .empty{padding:40px;text-align:center;color:#444;font-size:13px}
+
+/* Loading overlay */
+.tbl-loading{position:absolute;inset:0;background:rgba(17,17,17,.7);display:none;align-items:center;justify-content:center;z-index:20}
+.tbl-loading.show{display:flex}
+.spinner{width:28px;height:28px;border:3px solid #333;border-top-color:#5aafe0;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 <div class="app">
   <h1>色號配對資料庫</h1>
-  <p class="subtitle">建立 · 搜尋 · 修改</p>
+  <p class="subtitle">建立 · 搜尋 · 修改 — 資料儲存於 Supabase（全員共用）</p>
+
+  <!-- DB status -->
+  <div class="db-status">
+    <div class="db-dot loading" id="db-dot"></div>
+    <span class="db-msg" id="db-msg">連線中…</span>
+  </div>
 
   <div class="sec-title add-t">＋ 新增配對組</div>
   <div class="add-panel">
@@ -259,11 +318,36 @@ td{padding:8px 11px;vertical-align:middle;font-size:13px}
         Excel 匯入
       </button>
       <input type="file" id="import-file" class="import-file" accept=".xlsx,.xls,.csv" onchange="importExcel(event)">
-      <!-- Import result display -->
+      <span class="toolbar-label" style="margin-left:8px">圖片</span>
+      <div class="img-section">
+        <button class="tbarbtn img-btn" onclick="document.getElementById('img-recognize-input').click()" title="上傳圖片，用 AI 辨識色號">
+          <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><circle cx="5.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M1 10.5l3.5-3 3 3 2.5-2 4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          圖片辨識色號
+        </button>
+        <button class="tbarbtn img-btn" onclick="document.getElementById('img-search-input').click()" title="上傳色票圖片搜尋相近色號">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="7" r="2" fill="currentColor" opacity=".3"/></svg>
+          圖片搜尋色號
+        </button>
+        <input type="file" id="img-recognize-input" class="img-input" accept="image/*" onchange="openRecognizeModal(event)">
+        <input type="file" id="img-search-input" class="img-input" accept="image/*" onchange="openSearchModal(event)">
+      </div>
       <div class="import-toast" id="import-toast"></div>
     </div>
+
+    <!-- Image search results zone -->
+    <div id="img-search-zone" style="display:none;padding:12px 18px;background:#13172a;border-bottom:1px solid #222">
+      <div class="img-search-results">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="img-search-title">🎨 圖片取色結果 — 點選色塊填入搜尋</div>
+          <button class="close-img-search" onclick="closeImgSearch()">✕ 關閉</button>
+        </div>
+        <div class="img-swatches" id="img-swatches"></div>
+      </div>
+    </div>
+
     <div class="stats-zone" id="stats"></div>
     <div class="tbl-outer">
+      <div class="tbl-loading" id="tbl-loading"><div class="spinner"></div></div>
       <div class="tbl-scroll">
         <table>
           <thead><tr>
@@ -283,15 +367,174 @@ td{padding:8px 11px;vertical-align:middle;font-size:13px}
   </div>
 </div>
 
+<!-- Image Recognize Modal -->
+<div class="modal-overlay" id="recognize-modal">
+  <div class="modal-box">
+    <div class="modal-title">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><circle cx="5.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M1 10.5l3.5-3 3 3 2.5-2 4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      AI 圖片辨識色號
+    </div>
+    <img id="recognize-preview" class="modal-preview" src="" alt="預覽">
+    <div id="recognize-result" class="modal-result loading">AI 分析中，請稍候…</div>
+    <div class="modal-fill-fields" id="modal-fill-fields">
+      <div class="mf-field"><label>尼龍</label><input id="mf-ny" placeholder="—"></div>
+      <div class="mf-field"><label>棉</label><input id="mf-ct" placeholder="—"></div>
+      <div class="mf-field"><label>PANTONE C</label><input id="mf-pc" placeholder="—"></div>
+      <div class="mf-field"><label>PANTONE TPG</label><input id="mf-tg" placeholder="—"></div>
+      <div class="mf-field" style="grid-column:1/-1"><label>HEX</label><input id="mf-hx" placeholder="—"></div>
+    </div>
+    <div class="modal-btn-row">
+      <button class="modal-btn primary" onclick="fillFromRecognize()">填入新增欄位</button>
+      <button class="modal-btn secondary" onclick="closeRecognizeModal()">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- Image Search Modal -->
+<div class="modal-overlay" id="search-modal">
+  <div class="modal-box">
+    <div class="modal-title">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      圖片取色搜尋
+    </div>
+    <img id="search-preview" class="modal-preview" src="" alt="預覽">
+    <div id="search-result-text" class="modal-result loading">AI 分析中，請稍候…</div>
+    <div id="search-swatches-area" style="margin-bottom:12px;display:none">
+      <div style="font-size:11px;color:#7ab0e8;font-weight:700;margin-bottom:8px">點選色塊搜尋資料庫</div>
+      <div class="img-swatches" id="modal-swatches"></div>
+    </div>
+    <div class="modal-btn-row">
+      <button class="modal-btn secondary" onclick="closeSearchModal()">關閉</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-let rows=[],editingId=null,sortKey=null,sortDir='desc',isSearchActive=false;
-const STORE='color_db_v14';
-function loadDB(){try{rows=JSON.parse(localStorage.getItem(STORE)||'[]');}catch(e){rows=[];}}
-function saveDB(){try{localStorage.setItem(STORE,JSON.stringify(rows));}catch(e){}}
-loadDB();
+/* ══════════════════════════════════════════════════════
+   SUPABASE CONFIG — 填入你的專案資訊
+   ══════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'https://nwvhlehqtrohlqnryhwl.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_yhBJ_xwLDVVxvqHJdk2FiQ_GeFXNgCu';
+const TABLE = 'color_groups'
 
-/* ── Normalise ── */
+/* ══════════════════════════════════════════════════════
+   ANTHROPIC CONFIG — 圖片辨識功能（選填）
+   ══════════════════════════════════════════════════════ */
+const ANTHROPIC_API_KEY = 'YOUR_ANTHROPIC_API_KEY'
+
+/* ── Supabase REST helpers ── */
+async function sbFetch(path, opts = {}) {
+  const url = `${SUPABASE_URL}/rest/v1/${path}`
+  const headers = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation',
+    ...opts.headers
+  }
+  const res = await fetch(url, { ...opts, headers })
+  if (!res.ok) {
+    const err = await res.text()
+    throw new Error(`Supabase error ${res.status}: ${err}`)
+  }
+  const text = await res.text()
+  return text ? JSON.parse(text) : []
+}
+
+/* Map DB row → local row */
+function dbToLocal(r) {
+  return {
+    id: r.id,
+    ny: r.nylon || '',
+    ct: r.cotton || '',
+    pc: r.pantone_c || '',
+    tg: r.pantone_tpg || '',
+    hx: r.hex || '',
+    nt1y: r.yarn1_name || '',
+    nt1c: r.yarn1_code || '',
+    nt2y: r.yarn2_name || '',
+    nt2c: r.yarn2_code || '',
+    nt3y: r.yarn3_name || '',
+    nt3c: r.yarn3_code || '',
+  }
+}
+
+/* Map local row → DB payload */
+function localToDb(r) {
+  return {
+    nylon: r.ny || null,
+    cotton: r.ct || null,
+    pantone_c: r.pc || null,
+    pantone_tpg: r.tg || null,
+    hex: r.hx || null,
+    yarn1_name: r.nt1y || null,
+    yarn1_code: r.nt1c || null,
+    yarn2_name: r.nt2y || null,
+    yarn2_code: r.nt2c || null,
+    yarn3_name: r.nt3y || null,
+    yarn3_code: r.nt3c || null,
+  }
+}
+
+/* ── DB status UI ── */
+function setDbStatus(state, msg) {
+  const dot = document.getElementById('db-dot')
+  const msgEl = document.getElementById('db-msg')
+  dot.className = 'db-dot ' + state
+  msgEl.textContent = msg
+}
+
+/* ── State ── */
+let rows = [], editingId = null, sortKey = null, sortDir = 'desc', isSearchActive = false
+
+/* ── Load all rows from Supabase ── */
+async function loadDB() {
+  setDbStatus('loading', '連線中…')
+  showLoading(true)
+  try {
+    const data = await sbFetch(`${TABLE}?order=created_at.desc&limit=5000`)
+    rows = data.map(dbToLocal)
+    setDbStatus('ok', `已連線 Supabase — 共 ${rows.length} 筆資料（所有使用者共用）`)
+  } catch (e) {
+    setDbStatus('err', '無法連線 Supabase：' + e.message)
+    console.error(e)
+    rows = []
+  }
+  showLoading(false)
+  updateYarnDropdown()
+  render()
+}
+
+function showLoading(v) {
+  document.getElementById('tbl-loading').className = v ? 'tbl-loading show' : 'tbl-loading'
+}
+
+/* ── Insert one row ── */
+async function insertRow(r) {
+  const data = await sbFetch(TABLE, {
+    method: 'POST',
+    body: JSON.stringify(localToDb(r))
+  })
+  return data[0] ? dbToLocal(data[0]) : { ...r, id: data[0]?.id || Date.now() }
+}
+
+/* ── Update one row ── */
+async function updateRow(r) {
+  await sbFetch(`${TABLE}?id=eq.${r.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(localToDb(r))
+  })
+}
+
+/* ── Delete one row ── */
+async function deleteRowDB(id) {
+  await sbFetch(`${TABLE}?id=eq.${id}`, { method: 'DELETE', headers: { 'Prefer': '' } })
+}
+
+/* ══════════════════════════════════════════════════════
+   NORMALISE
+   ══════════════════════════════════════════════════════ */
 function normNy(s){const n=parseInt(String(s||'').replace(/\D/g,''),10);return isNaN(n)?'':String(n);}
 function normCt(s){let t=String(s||'').trim().toUpperCase().replace(/\s/g,'');if(!t)return'';if(t.startsWith('DK'))return'DK'+t.slice(2).replace(/\D/g,'').padStart(3,'0');const d=t.replace(/\D/g,'');return d?'DK'+d.padStart(3,'0'):'';}
 function normPc(s){let t=String(s||'').trim().toUpperCase().replace(/PANTONE\s*/gi,'').replace(/[®©]/g,'').trim().replace(/\s+/g,' ');if(!t)return'';if(/[A-Z0-9]C$/.test(t)&&!/ C$/.test(t))t=t.slice(0,-1).trim()+' C';else if(!/\bC$/.test(t))t+=' C';return t.trim()==='C'?'':t;}
@@ -300,13 +543,8 @@ function normHx(s){let t=String(s||'').trim().replace(/^#+/,'').toUpperCase();if
 function trimS(s){return String(s||'').trim();}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-/* ── Unique key for a complete colour set (all 5 main + 3 yarn pairs) ──
-   Two rows are IDENTICAL if all 11 normalised fields match exactly.        */
-function rowKey(r){
-  return[r.ny,r.ct,r.pc,r.tg,r.hx,r.nt1y,r.nt1c,r.nt2y,r.nt2c,r.nt3y,r.nt3c].join('|');
-}
-
-/* Build a Set of existing keys for fast duplicate checking */
+/* ── Duplicate check key ── */
+function rowKey(r){return[r.ny,r.ct,r.pc,r.tg,r.hx,r.nt1y,r.nt1c,r.nt2y,r.nt2c,r.nt3y,r.nt3c].join('|');}
 function existingKeySet(){return new Set(rows.map(r=>rowKey(r)));}
 
 function getAddInputs(){return{ny:normNy(document.getElementById('in-ny').value),ct:normCt(document.getElementById('in-ct').value),pc:normPc(document.getElementById('in-pc').value),tg:normTg(document.getElementById('in-tg').value),hx:normHx(document.getElementById('in-hx').value),nt1y:trimS(document.getElementById('in-nt1y').value),nt1c:trimS(document.getElementById('in-nt1c').value),nt2y:trimS(document.getElementById('in-nt2y').value),nt2c:trimS(document.getElementById('in-nt2c').value),nt3y:trimS(document.getElementById('in-nt3y').value),nt3c:trimS(document.getElementById('in-nt3c').value)};}
@@ -325,13 +563,7 @@ function buildWarnMiniTbl(hitRows,matchY,matchC){
     const d=v=>v?`<span class="wcode">${esc(v)}</span>`:`<span class="wdash">—</span>`;
     const hxTd=r.hx?(()=>{const bg=/^#[0-9A-F]{6}$/i.test(r.hx)?r.hx:'#555';return`<td><span class="whx-cell"><span class="wsw" style="background:${bg}"></span><span class="wcode">${esc(r.hx)}</span></span></td>`;})():`<td><span class="wdash">—</span></td>`;
     const ntPairs=[[r.nt1y,r.nt1c],[r.nt2y,r.nt2c],[r.nt3y,r.nt3c]].filter(([y,c])=>y||c);
-    const ntContent=ntPairs.length?ntPairs.map(([y,c])=>{
-      const isPairMatch=matchY&&y&&y.toLowerCase()===matchY.toLowerCase()&&matchC&&c&&c.toLowerCase()===matchC.toLowerCase();
-      const yH=y?(isPairMatch?`<span class="wnt-hl">${esc(y)}</span>`:`<span class="wnt">${esc(y)}</span>`):'';
-      const cH=c?(isPairMatch?`<span class="wntc-hl">${esc(c)}</span>`:`<span class="wntc">${esc(c)}</span>`):'';
-      const sep=(y&&c)?`<span class="note-sep">·</span>`:'';
-      return`<span>${yH}${sep}${cH}</span>`;
-    }).join(' '):`<span class="wdash">—</span>`;
+    const ntContent=ntPairs.length?ntPairs.map(([y,c])=>{const isPairMatch=matchY&&y&&y.toLowerCase()===matchY.toLowerCase()&&matchC&&c&&c.toLowerCase()===matchC.toLowerCase();const yH=y?(isPairMatch?`<span class="wnt-hl">${esc(y)}</span>`:`<span class="wnt">${esc(y)}</span>`):'';const cH=c?(isPairMatch?`<span class="wntc-hl">${esc(c)}</span>`:`<span class="wntc">${esc(c)}</span>`):'';const sep=(y&&c)?`<span class="note-sep">·</span>`:'';return`<span>${yH}${sep}${cH}</span>`;}).join(' '):`<span class="wdash">—</span>`;
     return`<tr><td>${d(r.ny)}</td><td>${d(r.ct)}</td><td>${d(r.pc)}</td><td>${d(r.tg)}</td>${hxTd}<td>${ntContent}</td></tr>`;
   }).join('');
   return`<table class="warn-mini-tbl">${head}<tbody>${trs}</tbody></table>`;
@@ -372,35 +604,72 @@ function liveSearch(){
 }
 function quickEdit(id){editingId=id;render();setTimeout(()=>{const el=document.getElementById('row-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},80);}
 
-/* ── Add row: check full-set duplicate before inserting ── */
-function addRow(){
-  const inp=getAddInputs();
-  const hasMain=inp.ny||inp.ct||inp.pc||inp.tg||inp.hx;
-  const hasNote=inp.nt1y||inp.nt1c||inp.nt2y||inp.nt2c||inp.nt3y||inp.nt3c;
-  if(!hasMain&&!hasNote){alert('請至少填一個欄位');return;}
-  const k=rowKey(inp);
-  if(existingKeySet().has(k)){
-    alert('⚠️ 此配色組已完全相同存在，不允許重複新增。\n（五個色號欄位及三組紗材完全一致）');
-    return;
+/* ── Add row (Supabase) ── */
+async function addRow() {
+  const inp = getAddInputs()
+  const hasMain = inp.ny||inp.ct||inp.pc||inp.tg||inp.hx
+  const hasNote = inp.nt1y||inp.nt1c||inp.nt2y||inp.nt2c||inp.nt3y||inp.nt3c
+  if (!hasMain && !hasNote) { alert('請至少填一個欄位'); return }
+  const k = rowKey(inp)
+  if (existingKeySet().has(k)) {
+    alert('⚠️ 此配色組已完全相同存在，不允許重複新增。\n（五個色號欄位及三組紗材完全一致）')
+    return
   }
-  rows.unshift({id:Date.now(),...inp});
-  saveDB();clearAdd();updateYarnDropdown();render();
+  const btn = document.querySelector('.abtn-add')
+  btn.disabled = true; btn.textContent = '…'
+  try {
+    const saved = await insertRow(inp)
+    rows.unshift(saved)
+    clearAdd(); updateYarnDropdown(); render()
+  } catch (e) {
+    alert('新增失敗：' + e.message)
+  }
+  btn.disabled = false; btn.textContent = '＋'
 }
 
-function deleteRow(id){if(!confirm('確定刪除？'))return;rows=rows.filter(r=>r.id!==id);saveDB();updateYarnDropdown();render();}
+/* ── Delete row (Supabase) ── */
+async function deleteRow(id) {
+  if (!confirm('確定刪除？')) return
+  try {
+    await deleteRowDB(id)
+    rows = rows.filter(r => r.id !== id)
+    updateYarnDropdown(); render()
+  } catch (e) {
+    alert('刪除失敗：' + e.message)
+  }
+}
+
+/* ── Edit / Save (Supabase) ── */
 function startEdit(id){editingId=id;render();}
 function cancelEdit(){editingId=null;render();}
-function saveEdit(id){
-  const r=rows.find(x=>x.id===id);if(!r)return;
-  const updated={...r,ny:normNy(document.getElementById('e-ny-'+id).value),ct:normCt(document.getElementById('e-ct-'+id).value),pc:normPc(document.getElementById('e-pc-'+id).value),tg:normTg(document.getElementById('e-tg-'+id).value),hx:normHx(document.getElementById('e-hx-'+id).value),nt1y:trimS(document.getElementById('e-nt1y-'+id).value),nt1c:trimS(document.getElementById('e-nt1c-'+id).value),nt2y:trimS(document.getElementById('e-nt2y-'+id).value),nt2c:trimS(document.getElementById('e-nt2c-'+id).value),nt3y:trimS(document.getElementById('e-nt3y-'+id).value),nt3c:trimS(document.getElementById('e-nt3c-'+id).value)};
-  /* prevent saving as duplicate of another existing row */
-  const newKey=rowKey(updated);
-  const conflict=rows.find(x=>x.id!==id&&rowKey(x)===newKey);
-  if(conflict){alert('⚠️ 修改後的配色組與現有資料完全相同，無法儲存。');return;}
-  Object.assign(r,updated);
-  editingId=null;saveDB();updateYarnDropdown();render();
+async function saveEdit(id) {
+  const r = rows.find(x => x.id === id); if (!r) return
+  const updated = {...r,
+    ny:normNy(document.getElementById('e-ny-'+id).value),
+    ct:normCt(document.getElementById('e-ct-'+id).value),
+    pc:normPc(document.getElementById('e-pc-'+id).value),
+    tg:normTg(document.getElementById('e-tg-'+id).value),
+    hx:normHx(document.getElementById('e-hx-'+id).value),
+    nt1y:trimS(document.getElementById('e-nt1y-'+id).value),
+    nt1c:trimS(document.getElementById('e-nt1c-'+id).value),
+    nt2y:trimS(document.getElementById('e-nt2y-'+id).value),
+    nt2c:trimS(document.getElementById('e-nt2c-'+id).value),
+    nt3y:trimS(document.getElementById('e-nt3y-'+id).value),
+    nt3c:trimS(document.getElementById('e-nt3c-'+id).value)
+  }
+  const newKey = rowKey(updated)
+  const conflict = rows.find(x => x.id !== id && rowKey(x) === newKey)
+  if (conflict) { alert('⚠️ 修改後的配色組與現有資料完全相同，無法儲存。'); return }
+  try {
+    await updateRow(updated)
+    Object.assign(r, updated)
+    editingId = null; updateYarnDropdown(); render()
+  } catch (e) {
+    alert('儲存失敗：' + e.message)
+  }
 }
 
+/* ── Sort / Search ── */
 function toggleSort(k){if(sortKey===k){if(sortDir==='asc')sortDir='desc';else if(sortDir==='desc'){sortKey=null;sortDir='desc';}else sortDir='asc';}else{sortKey=k;sortDir='asc';}render();}
 function clearSearch(){['s-ny','s-ct','s-pc','s-tg','s-hx','s-ntc'].forEach(id=>document.getElementById(id).value='');document.getElementById('s-nty').value='';isSearchActive=false;render();}
 
@@ -422,62 +691,65 @@ function renderNoteLines(r,ycFreq){
   return lines.length?`<div class="note-lines">${lines.join('')}</div>`:'';
 }
 
+function getSQ(){return{ny:String(document.getElementById('s-ny').value||'').trim().toUpperCase(),ct:String(document.getElementById('s-ct').value||'').trim().toUpperCase(),pc:String(document.getElementById('s-pc').value||'').trim().toUpperCase(),tg:String(document.getElementById('s-tg').value||'').trim().toUpperCase(),hx:String(document.getElementById('s-hx').value||'').trim().toUpperCase().replace('#',''),nty:String(document.getElementById('s-nty').value||'').trim(),ntc:String(document.getElementById('s-ntc').value||'').trim().toLowerCase()};}
+
 let lastFiltered=[];
 function rowToExcel(r){return{'尼龍':r.ny||'','棉':r.ct||'','PANTONE C':r.pc||'','PANTONE TPG':r.tg||'','HEX':r.hx||'','紗材1':r.nt1y||'','色號1':r.nt1c||'','紗材2':r.nt2y||'','色號2':r.nt2c||'','紗材3':r.nt3y||'','色號3':r.nt3c||''};}
 function exportExcel(filteredOnly){if(typeof XLSX==='undefined'){alert('Excel 功能載入中');return;}const data=(filteredOnly?lastFiltered:rows).map(rowToExcel);if(!data.length){alert('沒有資料可匯出');return;}const ws=XLSX.utils.json_to_sheet(data);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'色號配對');XLSX.writeFile(wb,filteredOnly?'搜尋結果.xlsx':'色號配對資料庫.xlsx');}
 
-/* ── KEY FIX: importExcel — strict full-set dedup ── */
-function importExcel(evt){
-  const file=evt.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const data=new Uint8Array(e.target.result);
-      const wb=XLSX.read(data,{type:'array'});
-      const ws=wb.Sheets[wb.SheetNames[0]];
-      const json=XLSX.utils.sheet_to_json(ws,{defval:''});
-      let added=0,skipped=0;
-      /* snapshot existing keys before import loop */
-      const keys=existingKeySet();
-      for(const row of json){
-        const r={
-          ny:normNy(row['尼龍']||''),
-          ct:normCt(row['棉']||''),
-          pc:normPc(row['PANTONE C']||''),
-          tg:normTg(row['PANTONE TPG']||''),
-          hx:normHx(row['HEX']||''),
-          nt1y:trimS(row['紗材1']||''),nt1c:trimS(row['色號1']||''),
-          nt2y:trimS(row['紗材2']||''),nt2c:trimS(row['色號2']||''),
-          nt3y:trimS(row['紗材3']||''),nt3c:trimS(row['色號3']||''),
-        };
-        /* skip completely empty rows */
-        if(!r.ny&&!r.ct&&!r.pc&&!r.tg&&!r.hx&&!r.nt1y&&!r.nt1c&&!r.nt2y&&!r.nt2c&&!r.nt3y&&!r.nt3c)continue;
-        const k=rowKey(r);
-        if(keys.has(k)){
-          /* EXACT full-set duplicate — skip, do NOT add */
-          skipped++;
-        } else {
-          /* new or partial-match — add as unique record */
-          r.id=Date.now()+Math.random();
-          rows.push(r);
-          keys.add(k);/* prevent duplicates within the same import batch */
-          added++;
+/* ── Excel Import (Supabase batch insert) ── */
+async function importExcel(evt) {
+  const file = evt.target.files[0]; if (!file) return
+  const reader = new FileReader()
+  reader.onload = async e => {
+    try {
+      const data = new Uint8Array(e.target.result)
+      const wb = XLSX.read(data, { type: 'array' })
+      const ws = wb.Sheets[wb.SheetNames[0]]
+      const json = XLSX.utils.sheet_to_json(ws, { defval: '' })
+      let added = 0, skipped = 0
+      const keys = existingKeySet()
+      const toInsert = []
+      for (const row of json) {
+        const r = {
+          ny: normNy(row['尼龍']||''), ct: normCt(row['棉']||''),
+          pc: normPc(row['PANTONE C']||''), tg: normTg(row['PANTONE TPG']||''),
+          hx: normHx(row['HEX']||''),
+          nt1y: trimS(row['紗材1']||''), nt1c: trimS(row['色號1']||''),
+          nt2y: trimS(row['紗材2']||''), nt2c: trimS(row['色號2']||''),
+          nt3y: trimS(row['紗材3']||''), nt3c: trimS(row['色號3']||''),
         }
+        if (!r.ny&&!r.ct&&!r.pc&&!r.tg&&!r.hx&&!r.nt1y&&!r.nt1c&&!r.nt2y&&!r.nt2c&&!r.nt3y&&!r.nt3c) continue
+        const k = rowKey(r)
+        if (keys.has(k)) { skipped++; continue }
+        keys.add(k); toInsert.push(r); added++
       }
-      saveDB();updateYarnDropdown();render();
-      /* display result */
-      const toast=document.getElementById('import-toast');
-      toast.innerHTML=`<span class="toast-added">✓ 新增 ${added} 筆</span>`+(skipped?`<span class="toast-skip">⚠ 重複跳過 ${skipped} 筆</span>`:'');
-      toast.className='import-toast show';
-      setTimeout(()=>{toast.className='import-toast';},6000);
-    }catch(err){alert('匯入失敗：'+err.message);}
-    evt.target.value='';
-  };
-  reader.readAsArrayBuffer(file);
+      /* Batch insert */
+      if (toInsert.length) {
+        showLoading(true)
+        try {
+          const payload = toInsert.map(localToDb)
+          const saved = await sbFetch(TABLE, { method: 'POST', body: JSON.stringify(payload) })
+          const savedLocal = saved.map(dbToLocal)
+          rows.unshift(...savedLocal)
+        } catch(e) {
+          alert('匯入寫入 Supabase 失敗：' + e.message)
+          showLoading(false); evt.target.value = ''; return
+        }
+        showLoading(false)
+      }
+      updateYarnDropdown(); render()
+      const toast = document.getElementById('import-toast')
+      toast.innerHTML = `<span class="toast-added">✓ 新增 ${added} 筆</span>` + (skipped ? `<span class="toast-skip">⚠ 重複跳過 ${skipped} 筆</span>` : '')
+      toast.className = 'import-toast show'
+      setTimeout(() => { toast.className = 'import-toast' }, 6000)
+    } catch(err) { alert('匯入失敗：' + err.message) }
+    evt.target.value = ''
+  }
+  reader.readAsArrayBuffer(file)
 }
 
-function getSQ(){return{ny:String(document.getElementById('s-ny').value||'').trim().toUpperCase(),ct:String(document.getElementById('s-ct').value||'').trim().toUpperCase(),pc:String(document.getElementById('s-pc').value||'').trim().toUpperCase(),tg:String(document.getElementById('s-tg').value||'').trim().toUpperCase(),hx:String(document.getElementById('s-hx').value||'').trim().toUpperCase().replace('#',''),nty:String(document.getElementById('s-nty').value||'').trim(),ntc:String(document.getElementById('s-ntc').value||'').trim().toLowerCase()};}
-
+/* ── Render table ── */
 function render(){
   const freq=computeFreq();const ycFreq=computeYarnColorFreq();
   const sq=getSQ();
@@ -486,7 +758,7 @@ function render(){
   ['ny','ct','pc','tg','hx'].forEach(k=>{const th=document.getElementById('th-'+k);if(th)th.className=(sq[k]||sortKey===k)?'hl':'';const sa=document.getElementById('sa-'+k);if(sa)sa.textContent=sortKey===k?(sortDir==='asc'?'▲':'▼'):'';});
   let filtered=rows.filter(r=>{if(sq.ny&&!String(r.ny||'').toUpperCase().includes(sq.ny))return false;if(sq.ct&&!String(r.ct||'').toUpperCase().includes(sq.ct))return false;if(sq.pc&&!String(r.pc||'').toUpperCase().includes(sq.pc))return false;if(sq.tg&&!String(r.tg||'').toUpperCase().includes(sq.tg))return false;if(sq.hx&&!String(r.hx||'').toUpperCase().replace('#','').includes(sq.hx))return false;if(sq.nty){const match=[r.nt1y,r.nt2y,r.nt3y].some(y=>String(y||'').toLowerCase()===sq.nty.toLowerCase());if(!match)return false;}if(sq.ntc){if(sq.nty){const pairs=[[r.nt1y,r.nt1c],[r.nt2y,r.nt2c],[r.nt3y,r.nt3c]];const match=pairs.some(([y,c])=>String(y||'').toLowerCase()===sq.nty.toLowerCase()&&String(c||'').toLowerCase().includes(sq.ntc));if(!match)return false;}else{const match=[r.nt1c,r.nt2c,r.nt3c].some(c=>String(c||'').toLowerCase().includes(sq.ntc));if(!match)return false;}}return true;});
   if(sortKey){filtered.sort((a,b)=>{const va=String(a[sortKey]||''),vb=String(b[sortKey]||'');if(sortKey==='ny'){const na=parseInt(va,10)||0,nb=parseInt(vb,10)||0;return sortDir==='asc'?na-nb:nb-na;}return sortDir==='asc'?va.localeCompare(vb):vb.localeCompare(va);});}
-  else if(isSearchActive){filtered.sort((a,b)=>{const sa=rowTotalScore(a,freq),sb=rowTotalScore(b,freq);if(sb!==sa)return sb-sa;if(primaryKey){const fa=freq[primaryKey][a[primaryKey]]||0,fb=freq[primaryKey][b[primaryKey]]||0;if(fb!==fa)return fb-fa;}return b.id-a.id;});}
+  else if(isSearchActive){filtered.sort((a,b)=>{const sa=rowTotalScore(a,freq),sb=rowTotalScore(b,freq);if(sb!==sa)return sb-sa;if(primaryKey){const fa=freq[primaryKey][a[primaryKey]]||0,fb=freq[primaryKey][b[primaryKey]]||0;if(fb!==fa)return fb-fa;}return 0;});}
   lastFiltered=[...filtered];
   const fUniq=k=>[...new Set(filtered.map(r=>r[k]).filter(Boolean))].length;
   const fYarnSet=new Set();filtered.forEach(r=>[r.nt1y,r.nt2y,r.nt3y].forEach(y=>{if(y)fYarnSet.add(y);}));
@@ -504,7 +776,205 @@ function render(){
   }).join('');
 }
 
-updateYarnDropdown();render();
+/* ══════════════════════════════════════════════════════
+   IMAGE RECOGNITION (Claude Vision API)
+   ══════════════════════════════════════════════════════ */
+let recognizeImageBase64 = null
+
+function openRecognizeModal(evt) {
+  const file = evt.target.files[0]; if (!file) return
+  const reader = new FileReader()
+  reader.onload = async e => {
+    const dataUrl = e.target.result
+    recognizeImageBase64 = dataUrl.split(',')[1]
+    document.getElementById('recognize-preview').src = dataUrl
+    document.getElementById('recognize-result').className = 'modal-result loading'
+    document.getElementById('recognize-result').textContent = 'AI 分析中，請稍候…'
+    ;['mf-ny','mf-ct','mf-pc','mf-tg','mf-hx'].forEach(id => document.getElementById(id).value = '')
+    document.getElementById('recognize-modal').className = 'modal-overlay show'
+    await runRecognize()
+  }
+  reader.readAsDataURL(file)
+  evt.target.value = ''
+}
+
+async function runRecognize() {
+  if (ANTHROPIC_API_KEY === 'YOUR_ANTHROPIC_API_KEY') {
+    document.getElementById('recognize-result').className = 'modal-result'
+    document.getElementById('recognize-result').textContent = '⚠️ 請先在程式碼中填入 ANTHROPIC_API_KEY 才能使用 AI 辨識功能。'
+    return
+  }
+  try {
+    const prompt = `你是紡織業色號辨識專家。請分析這張圖片中的顏色/色票，辨識並回傳以下欄位（若無法辨識則留空）：
+尼龍色號（純數字，如 149）
+棉色號（DK格式，如 DK096）
+PANTONE C（如 151 C）
+PANTONE TPG（如 15-1157）
+HEX（六位十六進位，如 #F08030）
+
+請以下列 JSON 格式回答，不要加其他文字：
+{"nylon":"","cotton":"","pantone_c":"","pantone_tpg":"","hex":"","description":"顏色描述"}`
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-5',
+        max_tokens: 512,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: recognizeImageBase64 } },
+            { type: 'text', text: prompt }
+          ]
+        }]
+      })
+    })
+    const data = await res.json()
+    const text = data.content?.[0]?.text || ''
+    let parsed = {}
+    try {
+      const clean = text.replace(/```json|```/g, '').trim()
+      parsed = JSON.parse(clean)
+    } catch { parsed = {} }
+
+    document.getElementById('recognize-result').className = 'modal-result'
+    document.getElementById('recognize-result').textContent =
+      (parsed.description ? `🎨 ${parsed.description}\n\n` : '') +
+      `尼龍：${parsed.nylon || '—'}\n棉：${parsed.cotton || '—'}\nPANTONE C：${parsed.pantone_c || '—'}\nPANTONE TPG：${parsed.pantone_tpg || '—'}\nHEX：${parsed.hex || '—'}`
+
+    if (parsed.nylon) document.getElementById('mf-ny').value = parsed.nylon
+    if (parsed.cotton) document.getElementById('mf-ct').value = parsed.cotton
+    if (parsed.pantone_c) document.getElementById('mf-pc').value = parsed.pantone_c
+    if (parsed.pantone_tpg) document.getElementById('mf-tg').value = parsed.pantone_tpg
+    if (parsed.hex) document.getElementById('mf-hx').value = parsed.hex
+
+  } catch (e) {
+    document.getElementById('recognize-result').className = 'modal-result'
+    document.getElementById('recognize-result').textContent = '辨識失敗：' + e.message
+  }
+}
+
+function fillFromRecognize() {
+  const map = { 'mf-ny': 'in-ny', 'mf-ct': 'in-ct', 'mf-pc': 'in-pc', 'mf-tg': 'in-tg', 'mf-hx': 'in-hx' }
+  for (const [src, dst] of Object.entries(map)) {
+    const v = document.getElementById(src).value.trim()
+    if (v) document.getElementById(dst).value = v
+  }
+  closeRecognizeModal()
+  liveSearch()
+}
+function closeRecognizeModal() { document.getElementById('recognize-modal').className = 'modal-overlay' }
+
+/* ══════════════════════════════════════════════════════
+   IMAGE COLOR SEARCH
+   ══════════════════════════════════════════════════════ */
+let searchImageBase64 = null
+
+function openSearchModal(evt) {
+  const file = evt.target.files[0]; if (!file) return
+  const reader = new FileReader()
+  reader.onload = async e => {
+    const dataUrl = e.target.result
+    searchImageBase64 = dataUrl.split(',')[1]
+    document.getElementById('search-preview').src = dataUrl
+    document.getElementById('search-result-text').className = 'modal-result loading'
+    document.getElementById('search-result-text').textContent = 'AI 取色中，請稍候…'
+    document.getElementById('search-swatches-area').style.display = 'none'
+    document.getElementById('modal-swatches').innerHTML = ''
+    document.getElementById('search-modal').className = 'modal-overlay show'
+    await runColorExtract()
+  }
+  reader.readAsDataURL(file)
+  evt.target.value = ''
+}
+
+async function runColorExtract() {
+  if (ANTHROPIC_API_KEY === 'YOUR_ANTHROPIC_API_KEY') {
+    document.getElementById('search-result-text').className = 'modal-result'
+    document.getElementById('search-result-text').textContent = '⚠️ 請先填入 ANTHROPIC_API_KEY 才能使用圖片取色功能。'
+    return
+  }
+  try {
+    const prompt = `請從這張圖片取出主要顏色（最多 8 個），每個顏色回傳 HEX 色碼。
+只回傳 JSON 陣列，格式如下，不要加任何其他文字：
+[{"hex":"#RRGGBB","name":"顏色描述"},...]`
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-5',
+        max_tokens: 512,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: searchImageBase64 } },
+            { type: 'text', text: prompt }
+          ]
+        }]
+      })
+    })
+    const data = await res.json()
+    const text = data.content?.[0]?.text || '[]'
+    let colors = []
+    try {
+      const clean = text.replace(/```json|```/g, '').trim()
+      colors = JSON.parse(clean)
+    } catch { colors = [] }
+
+    document.getElementById('search-result-text').className = 'modal-result'
+    document.getElementById('search-result-text').textContent = `取出 ${colors.length} 個主要顏色，點選色塊搜尋資料庫`
+
+    if (colors.length) {
+      document.getElementById('search-swatches-area').style.display = 'block'
+      document.getElementById('modal-swatches').innerHTML = colors.map(c => `
+        <div class="swatch-wrap">
+          <div class="img-swatch" style="background:${c.hex}" title="${c.name||c.hex}"
+               onclick="searchByHex('${c.hex}');closeSearchModal()"></div>
+          <div class="sw-hex" style="position:static;transform:none;font-size:9px;color:#888;margin-top:4px">${c.hex}</div>
+        </div>`).join('')
+
+      /* Also show in the inline zone below toolbar */
+      document.getElementById('img-swatches').innerHTML = colors.map(c => `
+        <div class="swatch-wrap">
+          <div class="img-swatch" style="background:${c.hex}" title="${c.name||c.hex}"
+               onclick="searchByHex('${c.hex}')"></div>
+          <div class="sw-hex" style="position:static;transform:none;font-size:9px;color:#888;margin-top:4px">${c.hex}</div>
+        </div>`).join('')
+      document.getElementById('img-search-zone').style.display = 'block'
+    }
+  } catch (e) {
+    document.getElementById('search-result-text').className = 'modal-result'
+    document.getElementById('search-result-text').textContent = '取色失敗：' + e.message
+  }
+}
+
+function searchByHex(hex) {
+  const clean = hex.replace('#', '')
+  document.getElementById('s-hx').value = clean
+  render()
+  document.querySelector('.search-table-panel').scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+function closeSearchModal() { document.getElementById('search-modal').className = 'modal-overlay' }
+function closeImgSearch() { document.getElementById('img-search-zone').style.display = 'none' }
+
+/* Close modals on overlay click */
+document.getElementById('recognize-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeRecognizeModal() })
+document.getElementById('search-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeSearchModal() })
+
+/* ── Boot ── */
+loadDB()
 </script>
 </body>
 </html>
